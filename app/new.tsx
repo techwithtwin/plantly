@@ -16,6 +16,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { usePlantStore } from "@/store/plantsStore";
 import { useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
+import { StatusBar } from "expo-status-bar";
 
 export default function NewScreen() {
   const [imageUri, setImageUri] = useState<string | undefined>(undefined);
@@ -55,7 +56,7 @@ export default function NewScreen() {
         "Watering frequency must be a be a number"
       );
     }
-    addPlant(name, Number(days));
+    addPlant(name, Number(days), imageUri);
     router.navigate("/");
   };
 
@@ -65,6 +66,7 @@ export default function NewScreen() {
       contentContainerStyle={styles.contentContainer}
       keyboardShouldPersistTaps="handled"
     >
+      <StatusBar style="dark" />
       <TouchableOpacity
         onPress={handleChooseImage}
         activeOpacity={0.8}
