@@ -5,6 +5,8 @@ import {
   Alert,
   ScrollView,
   View,
+  TouchableOpacity,
+  Platform,
 } from "react-native";
 import { theme } from "@/theme";
 import { PlantlyButton } from "@/components/PlantlyButton";
@@ -13,13 +15,28 @@ import { PlantlyImage } from "@/components/PlantlyImage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { usePlantStore } from "@/store/plantsStore";
 import { useRouter } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 
 export default function NewScreen() {
+  const [imageUri, setImageUri] = useState<string | undefined>(undefined);
   const [name, setName] = useState<string>();
   const [days, setDays] = useState<string>();
   const addPlant = usePlantStore((state) => state.addPlant);
   const router = useRouter();
 
+  const handleChooseImage = async () => {
+    if (Platform.OS === "web") return;
+    const res = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!res.canceled) {
+      setImageUri(res.assets[0].uri);
+    }
+  };
   const handleSubmit = () => {
     if (!name) {
       return Alert.alert("Validation Error", "Give your plant a name");
@@ -48,9 +65,13 @@ export default function NewScreen() {
       contentContainerStyle={styles.contentContainer}
       keyboardShouldPersistTaps="handled"
     >
-      <View style={styles.centered}>
-        <PlantlyImage />
-      </View>
+      <TouchableOpacity
+        onPress={handleChooseImage}
+        activeOpacity={0.8}
+        style={styles.centered}
+      >
+        <PlantlyImage imageUri={imageUri} />
+      </TouchableOpacity>
       <Text style={styles.label}>Name</Text>
       <TextInput
         value={name}
@@ -96,5 +117,6 @@ const styles = StyleSheet.create({
   },
   centered: {
     alignItems: "center",
+    marginBottom: 24,
   },
 });
