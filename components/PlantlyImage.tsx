@@ -1,9 +1,12 @@
 import { Image, useWindowDimensions } from "react-native";
 
-export function PlantlyImage() {
+interface Props {
+  size?: number;
+}
+export function PlantlyImage({ size }: Props) {
   const { width } = useWindowDimensions();
 
-  const imageSize = width / 1.5;
+  const imageSize = size ?? width / 1.5;
   return (
     <Image
       source={require("@/assets/plantly.png")}
