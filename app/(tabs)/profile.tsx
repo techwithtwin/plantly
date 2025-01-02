@@ -1,6 +1,7 @@
 import { PlantlyButton } from "@/components/PlantlyButton";
 import { useUserStore } from "@/store/userStore";
 import { theme } from "@/theme";
+import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 
 export default function ProfileScreen() {
@@ -11,6 +12,7 @@ export default function ProfileScreen() {
   };
   return (
     <View style={styles.container}>
+      <StatusBar style="dark" />
       <PlantlyButton title="Back to onboarding" onPress={handlePress} />
     </View>
   );
