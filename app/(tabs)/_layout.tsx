@@ -16,10 +16,11 @@ export default function Layout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: theme.colorGreen }}>
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
           title: "Home",
           tabBarShowLabel: false,
+
           tabBarIcon: ({ size, color }) => (
             <Entypo name="leaf" size={size} color={color} />
           ),
